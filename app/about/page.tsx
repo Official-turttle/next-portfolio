@@ -5,18 +5,21 @@ import { aboutMe } from "../data/about";
 import { skills as skillsData } from "../data/skills";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function About() {
-  const [selectedExp, setSelectedExp] = useState(null);
-  const [activeSkill, setActiveSkill] = useState<string | null>(null);
+// Auto-infer type from aboutMe.experience
+type Experience = (typeof aboutMe.experience)[number];
 
+export default function About() {
+  const [selectedExp, setSelectedExp] = useState<Experience | null>(null);
+  const [activeSkill, setActiveSkill] = useState<string | null>(null);
 
   const sortedExperience = [...aboutMe.experience].sort((a, b) => {
     const getEndYear = (period: string) => {
-      const match = period.match(/\d{4}$/); // take the last 4-digit number
+      const match = period.match(/\d{4}$/);
       return match ? parseInt(match[0], 10) : 0;
     };
-    return getEndYear(b.period) - getEndYear(a.period); // newest first
+    return getEndYear(b.period) - getEndYear(a.period);
   });
+
   const allSkills = skillsData.flatMap(category => category.skills);
 
   return (
@@ -28,7 +31,6 @@ export default function About() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        {/* Profile Image */}
         <div className="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-lg border-4 border-indigo-100 dark:border-indigo-800">
           <img
             src={aboutMe.profileImage}
@@ -37,7 +39,6 @@ export default function About() {
           />
         </div>
 
-        {/* Name + Title + Bio */}
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             {aboutMe.name}
@@ -54,8 +55,8 @@ export default function About() {
         </div>
       </motion.div>
 
-    {/* Skills Section */}
-    <motion.div
+      {/* Skills Section */}
+      <motion.div
         className="mb-16"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -81,7 +82,6 @@ export default function About() {
               />
               <span>{skill.name}</span>
 
-              {/* Description popup */}
               <AnimatePresence>
                 {activeSkill === skill.name && (
                   <motion.div
@@ -99,8 +99,6 @@ export default function About() {
         </div>
       </motion.div>
 
-
-
       {/* Experience Timeline */}
       <div className="mb-16">
         <h3 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
@@ -108,7 +106,6 @@ export default function About() {
         </h3>
 
         <div className="relative max-w-3xl mx-auto">
-          {/* Vertical Line */}
           <div className="absolute left-1/2 top-0 transform -translate-x-1/2 h-full w-1 bg-gray-300 dark:bg-gray-600 rounded"></div>
 
           {sortedExperience.map((exp, i) => (
@@ -121,18 +118,12 @@ export default function About() {
               viewport={{ once: true, amount: 0.2 }}
               onClick={() => setSelectedExp(exp)}
             >
-              {/* Dot */}
               <span className="w-5 h-5 bg-indigo-600 dark:bg-indigo-400 rounded-full border-2 border-white dark:border-gray-900 z-10 mb-4 flex items-center justify-center text-white">
-                <svg
-                  className="w-3 h-3"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                 </svg>
               </span>
 
-              {/* Card */}
               <motion.div
                 className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 w-full md:w-3/4 hover:shadow-xl transition-transform duration-300"
                 whileHover={{ scale: 1.03 }}
@@ -143,9 +134,7 @@ export default function About() {
                 <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium mb-2">
                   {exp.company} | {exp.period}
                 </p>
-                <p className="text-gray-700 dark:text-gray-200">
-                  {exp.description}
-                </p>
+                <p className="text-gray-700 dark:text-gray-200">{exp.description}</p>
               </motion.div>
             </motion.div>
           ))}
@@ -154,64 +143,62 @@ export default function About() {
 
       {/* Modal */}
       <AnimatePresence>
-  {selectedExp && (
-    <motion.div
-      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <motion.div
-        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full md:w-2/3 max-h-[90vh] overflow-y-auto relative flex flex-col"
-        initial={{ y: 50, opacity: 0, scale: 0.95 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        exit={{ y: 50, opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        {/* Modal Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-indigo-600 dark:bg-indigo-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
-              {selectedExp.role[0]}
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {selectedExp.role}
-              </h3>
-              <p className="text-indigo-600 dark:text-indigo-400 font-medium">
-                {selectedExp.company} | {selectedExp.period}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setSelectedExp(null)}
-            className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition text-3xl"
+        {selectedExp && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            ✕
-          </button>
-        </div>
+            <motion.div
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full md:w-2/3 max-h-[90vh] overflow-y-auto relative flex flex-col"
+              initial={{ y: 50, opacity: 0, scale: 0.95 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 50, opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-indigo-600 dark:bg-indigo-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    {selectedExp.role[0]}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {selectedExp.role}
+                    </h3>
+                    <p className="text-indigo-600 dark:text-indigo-400 font-medium">
+                      {selectedExp.company} | {selectedExp.period}
+                    </p>
+                  </div>
+                </div>
 
-        {/* Modal Content */}
-        <div className="p-6 space-y-4 text-gray-700 dark:text-gray-200 leading-relaxed">
-          {selectedExp.details
-            .trim()
-            .split("\n")
-            .map((line, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
-                {line.replace(/^- /, "• ")}
-              </motion.p>
-            ))}
-        </div>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
+                <button
+                  onClick={() => setSelectedExp(null)}
+                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition text-3xl"
+                >
+                  ✕
+                </button>
+              </div>
 
+              <div className="p-6 space-y-4 text-gray-700 dark:text-gray-200 leading-relaxed">
+                {selectedExp.details
+                  .trim()
+                  .split("\n")
+                  .map((line, i) => (
+                    <motion.p
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                    >
+                      {line.replace(/^- /, "• ")}
+                    </motion.p>
+                  ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
