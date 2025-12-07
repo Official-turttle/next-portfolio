@@ -5,10 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -22,7 +28,11 @@ export default function Contact() {
   };
 
   const inputVariants = {
-    focus: { scale: 1.02, borderColor: "#6366F1", transition: { duration: 0.2 } },
+    focus: {
+      scale: 1.02,
+      borderColor: "#6366F1",
+      transition: { duration: 0.2 },
+    },
     blur: { scale: 1, borderColor: "#D1D5DB", transition: { duration: 0.2 } },
   };
 
@@ -117,41 +127,42 @@ export default function Contact() {
             Get in Touch
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            Feel free to reach out for collaborations, projects, or just to say hi!
+            Feel free to reach out for collaborations, projects, or just to say
+            hi!
           </p>
 
           <div className="flex flex-col gap-4 mt-4 text-lg">
-          <p>
-  📧 Email:{" "}
-  <a
-    href={`mailto:${["haraan", "ramamadram"].join(".")}@gmail.com`}
-    className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-indigo-300 transition"
-  >
-    {["haraan", "ramamadram"].join(".")}@gmail.com
-  </a>
-</p>
+            <p>
+              📧 Email:{" "}
+              <a
+                href={`mailto:${["haraan", "ramamadram"].join(".")}@gmail.com`}
+                className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-indigo-300 transition"
+              >
+                {["haraan", "ramamadram"].join(".")}@gmail.com
+              </a>
+            </p>
 
-<p>
-  📱 Phone:{" "}
-  <a
-    href={`tel:+60${["11", "310", "4635"].join("")}`}
-    className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-indigo-300 transition"
-  >
-    +60 11-310-4635
-  </a>
-</p>
+            <p>
+              📱 Phone:{" "}
+              <a
+                href={`tel:+60${["11", "310", "4635"].join("")}`}
+                className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-indigo-300 transition"
+              >
+                +60 11-310-4635
+              </a>
+            </p>
 
-<p>
-  💬 WhatsApp:{" "}
-  <a
-    href={`https://wa.me/+60${["11","310","4635"].join("")}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-indigo-300 transition"
-  >
-    Chat with me
-  </a>
-</p>
+            <p>
+              💬 WhatsApp:{" "}
+              <a
+                href={`https://wa.me/+60${["11", "310", "4635"].join("")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-indigo-300 transition"
+              >
+                Chat with me
+              </a>
+            </p>
 
             <p>
               💬 WhatsApp:{" "}
@@ -168,10 +179,26 @@ export default function Contact() {
 
           <div className="flex gap-6 mt-6 text-2xl">
             {[
-              { icon: FaGithub, url: "https://github.com/Official-turttle", label: "GitHub" },
-              { icon: FaLinkedin, url: "https://www.linkedin.com/in/haraan-ramamadram-2808101b0/", label: "LinkedIn" },
-              { icon: FaTwitter, url: "https://x.com/RHaraan", label: "Twitter" },
-              { icon: FaWhatsapp, url: "https://wa.me/601131074635", label: "WhatsApp" },
+              {
+                icon: FaGithub,
+                url: "https://github.com/Official-turttle",
+                label: "GitHub",
+              },
+              {
+                icon: FaLinkedin,
+                url: "https://www.linkedin.com/in/haraan-ramamadram-2808101b0/",
+                label: "LinkedIn",
+              },
+              {
+                icon: FaTwitter,
+                url: "https://x.com/RHaraan",
+                label: "Twitter",
+              },
+              {
+                icon: FaWhatsapp,
+                url: "https://wa.me/601131074635",
+                label: "WhatsApp",
+              },
             ].map((s, i) => (
               <motion.a
                 key={i}
