@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
-    const heroImage = "https://picsum.photos/id/237/200";
+    const heroImage = "/uploads/profile.jpg";
 
     return (
     <section className="flex flex-col md:flex-row justify-center items-center h-screen px-6 md:px-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
