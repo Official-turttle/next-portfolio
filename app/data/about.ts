@@ -48,5 +48,5 @@ export const aboutMe = {
             `
         }
     ],
-    profileImage: "https://picsum.photos/id/237/200" // Replace with your actual image
+    profileImage: "/uploads/profile.jpg"
 };
